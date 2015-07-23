@@ -1,0 +1,100 @@
+<script language="javascript" type="text/javascript">
+                        //当加载body时触发的事件 
+                        function onLoginLoaded() 
+                        {         
+                                //自动登陆页面跳转
+                                var zddl = localStorage.getItem("zddl");
+                                if(zddl=="true"){
+                                        uexWindow.open("index_order.html", "0", "index_order.html", "10", "", "", "0", "1111");
+                                }
+                                
+                                var usr = localStorage.getItem("name"); 
+                                if(usr != null) 
+                                { 
+                                        document.getElementById("txtUserName").value = usr; 
+                                } 
+                                else 
+                                { 
+                                        document.getElementById("txtUserName").value = ""; 
+                                } 
+                                        GetPwdAndChk(); 
+                        }
+                
+                //点击登录时触发客户端事件 
+            var c=new zyClick("login",function(me){        
+                        if (document.getElementById("txtUserName").value=="") 
+                           { 
+                            alert("请输入用户名！");
+                                document.getElementById("txtUserName").focus(); 
+                            return false;
+                           } 
+                           if (document.getElementById("txtPassword").value=="") 
+                           { 
+                            alert("请输入密码！") ;
+                                document.getElementById("txtPassword").focus(); 
+                            return false;
+                           } 
+                          else 
+                           {
+                                var txtUserName=document.getElementById("txtUserName").value;
+                                var txtPassword=document.getElementById("txtPassword").value;
+                                var jj = new DBRead("orderid=ZL9000000534&c="+txtUserName+"&b="+txtPassword+"").account();
+                                //真机测试连接数据库不成功
+                                if (jj.length > 0) {
+                                        uexWindow.open("index_order.html", "0", "index_order.html", "10", "", "", "0", "275");
+                                        alert("登录成功！");
+                                }else{
+                                        alert("登录失败！");
+                                }
+                           }
+                        //如果记住密码选项被选中 
+                        if(document.getElementById("jzmm").checked == true) 
+                        { 
+                                //把用户名和密码存入LocalStorage
+                                var usr = document.getElementById("txtUserName").value; 
+                                var pwd = document.getElementById("txtPassword").value;
+                                localStorage.setItem("name", usr);
+                            localStorage.setItem("password", pwd);
+                                //自动登录按钮    就这样啦。。。。
+                                if(document.getElementById("zddl").checked==true){
+                                        var zddl=document.getElementById("zddl").checked;
+                                        localStorage.setItem("zddl", zddl);
+                                }
+                                
+                        } 
+                        else 
+                        { 
+                                //如果没有选中记住密码,把密码删除
+                                localStorage.removeItem("password");
+                        }
+                         
+                },"btn-act c-m6"); 
+                
+        
+                //用户名失去焦点时调用该方法 
+                function GetPwdAndChk() 
+                { 
+                        var name = document.getElementById("txtUserName").value;
+                        var lname=localStorage.getItem("name");
+                        if(name==lname){
+                                var pwd = localStorage.getItem("password");
+                                if(pwd != null&&pwd!="") 
+                                { 
+                                        
+                                        document.getElementById("jzmm").checked = true; 
+                                        document.getElementById("txtPassword").value = pwd; 
+                                } 
+                                else 
+                                { 
+                                        document.getElementById("jzmm").checked = false;        
+                                        document.getElementById("txtPassword").value = ""; 
+                                }
+                        }else
+                        {
+                                document.getElementById("jzmm").checked = false;        
+                                document.getElementById("txtPassword").value = ""; 
+                        } 
+                        
+                         
+                }
+        </script>

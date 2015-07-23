@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+$(document).ready(function() {
+ if (localStorage["userInfoList"] != undefined) {
+ var userInfoList = JSON.parse(localStorage["userInfoList"]);
+ $("#username").val(userInfoList[userInfoList.length-1].name);//在用户名框出现最后输入的用户名
+for (var i = 0; i < userInfoList.length-1; i++) {
+ if (userInfoList[i].name == $("#username").val()) {
+ if (userInfoList[i].flag == 1) {
+ $("#password").val(userInfoList[i].password);
+ $("#remember").checked = true;
+ }
+ }
+ }
+ }
+ //监听登录按钮的点击事件
+$("#input").click(function () {
+ var username = $("username").val();
+ var password = $("password").val();
+ var flag = 0;
+ //判定"记住"是否选中
+if ($("#remember").checked == true) {
+ flag = 1;
+ }
+ var userInfo = new Object();
+ userInfo.name = username;
+ userInfo.password = password;
+ userInfo.flag = flag;
+ if (localStorage["userInfoList"] == undefined) {
+ var userInfoList = new Array();
+ userInfoList.push(userInfo);
+ localStorage["userInfoList"] = JSON.stringify(userInfoList);
+ }
+ else {
+ userInfoList = JSON.parse(localStorage["userInfoList"]);
+ userInfoList.push(userInfo);
+ localStorage["userInfoList"] = JSON.stringify(userInfoList);
+ }
+ });
+});
+</script>
+</body>
+</html>
