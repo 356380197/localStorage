@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="myCanvas"  width="500" height="300" style="border:1px solid #d3d3d3;background:#ffffff;"></canvas>
+	<img src="1.png" alt="" id="tulip"/>
+		<img src="2.png" alt="" id="img11"/>
+</body>
+<script>
+var img1 = document.getElementById('img11');
+var c=document.getElementById("myCanvas");
+var ctx=c.getContext("2d");
+var img=document.getElementById("tulip");
+var storage = window.localStorage;
+		ctx.drawImage(img,10,10);
+		var a = c.toDataURL()
+		storage.setItem("key","a");
+		if(storage.getItem("key")){
+		alert(1)
+		var   gg = localStorage.getItem("key");
+img1.src = gg
+}else{
+img1.src = img.src
+alert(2)
+
+}
+/*
+
+图片的base64和本地储存；
+
+*/
+</script>
+</html>
